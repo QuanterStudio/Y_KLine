@@ -1,45 +1,16 @@
-## Y_KLine
+//
+//  YYKDJPainter.m
+//  Y_Kline
+//
+//  Copyright © 2019 WillkYang. All rights reserved.
+//
 
+#import "YYKDJPainter.h"
+#import "Y_StockChartGlobalVariable.h"
+#import "UIColor+Y_StockChart.h"
 
-[![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)]() &nbsp;
-[![Support](https://img.shields.io/badge/support-iOS7.0+-blue.svg?style=flat)]() &nbsp;
-[![Support](https://img.shields.io/badge/support-Autolayout-orange.svg?style=flatt)]() &nbsp;
+@implementation YYKDJPainter
 
-## 介绍
-- [x] OC开发，如需Swift可直接翻译
-- [x] 支持MA、EMA、BOLL、KDJ、MACD、RSI、WR等技术指标，支持更多指标扩展
-- [x] 支持运行于iOS、MacOS上
-
-## 图表示例
-
-| 普通K线 | 普通K线+MACD
-|------------|------------
-| ![普通K线](https://github.com/WillkYang/Y_KLine/blob/master/Screenshot/2.png?raw=true) |![普通K线+MACD](http://images2015.cnblogs.com/blog/784141/201605/784141-20160512232150452-239970289.png)
-| 普通K线+KDJ | 分时图
-| ![普通K线+KDJ](http://images2015.cnblogs.com/blog/784141/201605/784141-20160512232158515-2083550522.png) |![分时图](http://images2015.cnblogs.com/blog/784141/201605/784141-20160512232213202-486002469.png)
-| 分时图+MACD | 更多指标
-| ![分时图+MACD](http://images2015.cnblogs.com/blog/784141/201605/784141-20160512232142827-1554494273.png) |![更多指标](https://github.com/WillkYang/Y_KLine/blob/master/Screenshot/1.png?raw=true)
-| 综合演示 
-| ![综合演示](http://images2015.cnblogs.com/blog/784141/201605/784141-20160512231537202-1121097756.gif) |
-
-## 集成方法
-1. 下载Demo项目，将Y_Kline文件夹拖入需要的工程中
-2. 参考Demo，将YYKlineView添加到需要展示的view即可，其他部分(如指标)可参考Demo中Y_StockChartView进行配置。
-
-### 自定义指标
-1. 实现YYPainterProtocol，可参考Painter文件夹下的其他已有指标。
-```objc
-@protocol YYPainterProtocol <NSObject>
-// 绘制
-+ (void)drawToLayer:(CALayer *)layer area:(CGRect)area models:(NSArray <YYKlineModel *> *)models minMax: (YYMinMaxModel *)minMaxModel;
-// 获取边界值
-+ (YYMinMaxModel *)getMinMaxValue:(NSArray <YYKlineModel *> *)data;
-@end
-```
-
-2. 以绘制KDJ图为例，新建YYKDJPainter，实现YYPainterProtocol
-
-```objc
 + (YYMinMaxModel *)getMinMaxValue:(NSArray <YYKlineModel *> *)data {
     if(!data) {
         return [YYMinMaxModel new];
@@ -108,21 +79,9 @@
     }
     [layer addSublayer:sublayer];
 }
-```
-3. 实现对应的Model，参考YYIndicatorModel，计算指标数据
-4. 在Y_StockChartView.m中加上该Painter对应的case
-```objc
-- (void)y_StockChartSegmentView:(Y_StockChartSegmentView *)segmentView clickSegmentButtonIndex:(NSInteger)index {
-    ...
-    case YYKlineIncicatorKDJ:
-        self.kLineView.indicator2Painter = YYKDJPainter.class;
-        break;
-    ...
+
++ (NSAttributedString *)getText:(YYKlineModel *)model {
+    return model.V_KDJ;
 }
-```
-5. 运行查看效果
 
-### 加群讨论更多：755873102
-
-感谢[@牛眼行情](https://niuyan.com)的K线数据源。
-
+@end
